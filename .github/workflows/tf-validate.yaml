@@ -1,0 +1,22 @@
+name: Terraform FMT & Validate
+on:
+  workflow_dispatch: {}
+  pull_request: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/tf-validate.yml
+jobs:
+  check_format:
+    name: terraform/ci
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    container:
+      image: hashicorp/terraform:1.9.8@sha256:18f9986038bbaf02cf49db9c09261c778161c51dcc7fb7e355ae8938459428cd
+    steps:
+      - uses: actions/checkout@v4
+      - run: fmt -recursive -check
+      - run: init -backend=false
+      - run: validate
