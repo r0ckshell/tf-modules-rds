@@ -8,7 +8,7 @@ on:
     paths:
       - .github/workflows/tf-validate.yml
 jobs:
-  check_format:
+  terraform:
     name: terraform/ci
     runs-on: ubuntu-latest
     permissions:
@@ -17,6 +17,6 @@ jobs:
       image: hashicorp/terraform:1.9.8@sha256:18f9986038bbaf02cf49db9c09261c778161c51dcc7fb7e355ae8938459428cd
     steps:
       - uses: actions/checkout@v4
-      - run: fmt -recursive -check
-      - run: init -backend=false
-      - run: validate
+      - run: terraform fmt -recursive -check
+      - run: terraform init -backend=false
+      - run: terraform validate
