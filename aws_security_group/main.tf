@@ -8,9 +8,9 @@ resource "aws_security_group" "this" {
   dynamic "ingress" {
     for_each = lookup(each.value, "ingress_rules", [])
     content {
-      description      = lookup(ingress.value, "description")
-      from_port        = try(ingress.value.from_port, ingress.value.port, 0)
-      to_port          = try(ingress.value.to_port, ingress.value.port, 0)
+      from_port        = coalesce(ingress.value.from_port, ingress.value.port, 0)
+      to_port          = coalesce(ingress.value.to_port, ingress.value.port, 0)
+      description      = lookup(ingress.value, "description", "Managed by Terraform")
       protocol         = lookup(ingress.value, "protocol", "-1")
       cidr_blocks      = lookup(ingress.value, "cidr_blocks", [])
       ipv6_cidr_blocks = lookup(ingress.value, "ipv6_cidr_blocks", [])
@@ -23,9 +23,9 @@ resource "aws_security_group" "this" {
   dynamic "egress" {
     for_each = lookup(each.value, "egress_rules", [])
     content {
-      description      = lookup(egress.value, "description")
-      from_port        = try(egress.value.from_port, egress.value.port, 0)
-      to_port          = try(egress.value.to_port, egress.value.port, 0)
+      from_port        = coalesce(egress.value.from_port, egress.value.port, 0)
+      to_port          = coalesce(egress.value.to_port, egress.value.port, 0)
+      description      = lookup(egress.value, "description", "Managed by Terraform")
       protocol         = lookup(egress.value, "protocol", "-1")
       cidr_blocks      = lookup(egress.value, "cidr_blocks", [])
       ipv6_cidr_blocks = lookup(egress.value, "ipv6_cidr_blocks", [])
