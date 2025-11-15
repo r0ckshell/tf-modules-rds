@@ -20,7 +20,6 @@ jobs:
         working-directory: ${{ github.workspace }}
     steps:
       - uses: actions/checkout@v4
-      - run: ls -la
       - run: terraform fmt -recursive -check
       - run: terraform init -backend=false
       - run: terraform validate
